@@ -175,7 +175,7 @@ async function getForecast() {
   const builtURL = `https://api.openweathermap.org/data/2.5/forecast?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
 
   try {
-    const response = await fetch(builtURL).preventDefault();
+    const response = await fetch(builtURL);
     if (response.ok) {
       const data = await response.json();
       mainForecastDiv.innerHTML = '';
