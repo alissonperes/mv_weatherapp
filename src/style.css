@@ -1,0 +1,36 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: cadetblue;
+}
+.main-forecast {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: nowrap;
+  overflow: auto;
+}
+.forecast-item {
+  margin: 0 1rem;
+}
+
+#current-weather {
+  line-height: 1.3rem;
+  text-align: center;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+#current-forecast {
+  display: flex;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+.units-div {
+  display: flex;
+  align-items: center;
+}
