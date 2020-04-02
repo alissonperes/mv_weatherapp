@@ -2,7 +2,7 @@ import './renderViews';
 import './style.css';
 
 const app = document.getElementById('app');
-
+const APP_ID = '07de9ba11ff7a9f82f38e6eee1f5515b';
 const get = () => JSON.parse(localStorage.getItem('preferences'));
 const set = (value) => {
   localStorage.setItem('preferences', JSON.stringify(value));
@@ -57,8 +57,6 @@ const currentWeatherForecast = document.createElement('div');
 currentWeatherForecast.id = 'current-weather';
 const mainForecastDiv = document.createElement('div');
 mainForecastDiv.id = 'current-forecast';
-
-const APP_ID = '07de9ba11ff7a9f82f38e6eee1f5515b';
 
 const dateFormat = (intDate) => {
   const newDate = new Date(intDate * 1000);
@@ -146,8 +144,6 @@ async function getCurrentWeather() {
   }
 }
 
-getCurrentWeather();
-
 function renderMainForecast(dataList) {
   const tempUnit = preferences.units === 'metric' ? 'ºC' : ' ºF';
   dataList.forEach((item) => {
@@ -179,7 +175,7 @@ async function getForecast() {
   const builtURL = `https://api.openweathermap.org/data/2.5/forecast?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
 
   try {
-    const response = await fetch(builtURL);
+    const response = await fetch(builtURL).preventDefault();
     if (response.ok) {
       const data = await response.json();
       mainForecastDiv.innerHTML = '';
@@ -194,6 +190,7 @@ async function getForecast() {
   }
 }
 
+getCurrentWeather();
 getForecast();
 
 app.appendChild(locationDiv);
@@ -216,6 +213,7 @@ changeLocationBtn.onclick = () => {
     preferences.city = locationInput.value;
     set(preferences);
     getCurrentWeather();
+    getForecast();
     locationInput.value = '';
   } else {
     locationInput.reportValidity();
