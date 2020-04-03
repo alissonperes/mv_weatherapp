@@ -20,7 +20,7 @@ This project builds a browser based weather app. You can check the complete desc
 To get started with the app, clone the repo, run `npm install;npm run build` and you are set to go.
 
 ## Live Version
-  - [Live version in Git Hack](https://rawcdn.githack.com/alissonperes/mv_weatherapp/254a81761f343c4149de7fb6637fd344662027cb/dist/index.html)
+  - [Live version in Git Hack](https://raw.githack.com/alissonperes/mv_weatherapp/base-app/dist/index.html)
 
 ## Aknowldgments
 
