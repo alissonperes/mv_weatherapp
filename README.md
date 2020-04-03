@@ -17,7 +17,7 @@ This project builds a browser based weather app. You can check the complete desc
 
 ## Getting started
 
-Install following packages:
+Install following packages with npm install:
 
 - css-loader
 - eslint
