@@ -12,8 +12,10 @@ async function getCurrentWeather(node, preferences) {
       renderCurrentWeather(node, data, preferences);
       return data;
     }
-    node.innerHTML = '';
-    node.innerText = response.statusText;
+    while (node.firstChild) {
+      node.removeChild(node.firstChild);
+    }
+    node.appendChild(document.createTextNode(response.statusText));
     return response.statusText;
   } catch (e) {
     return e;
@@ -31,8 +33,10 @@ async function getForecast(node, preferences) {
       renderMainForecast(node, data.list, preferences);
       return data;
     }
-    node.innerHTML = '';
-    node.innerText = response.statusText;
+    while (node.firstChild) {
+      node.removeChild(node.firstChild);
+    }
+    node.appendChild(document.createTextNode(response.statusText));
     return response.statusText;
   } catch (e) {
     return e;
