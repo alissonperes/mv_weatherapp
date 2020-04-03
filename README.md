@@ -29,7 +29,7 @@ Install following packages with npm install:
 
 ## Live Version
 
-- [Live version in Git Hack](https://raw.githack.com/alissonperes/mv_weatherapp/base-app/dist/index.html)
+- [Live version in Git Hack](https://rawcdn.githack.com/alissonperes/mv_weatherapp/94c056fd5d1c317ef740b46902e3932ac1e30c1c/dist/index.html)
 
 ## Aknowldgments
 
