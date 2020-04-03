@@ -11,19 +11,27 @@ This project builds a browser based weather app. You can check the complete desc
 
 ## Authors
 
-- Alisson Peres 
+- Alisson Peres
   - [GitHub](https://github.com/alissonperes/)
   - [Linkedin](https://www.linkedin.com/in/alissonperes)
 
 ## Getting started
 
-To get started with the app, clone the repo, run `npm install;npm run build` and you are set to go.
+Install following packages:
+
+- css-loader
+- eslint
+- eslint-config-airbnb-base
+- eslint-plugin-import
+- style-loader
+- webpack
+- webpack-cli
 
 ## Live Version
-  - [Live version in Git Hack](https://raw.githack.com/alissonperes/mv_weatherapp/base-app/dist/index.html)
+
+- [Live version in Git Hack](https://raw.githack.com/alissonperes/mv_weatherapp/base-app/dist/index.html)
 
 ## Aknowldgments
 
 - [Microverse](https://www.microverse.org/)
 - [The Odin Project](https://www.theodinproject.com)
-
