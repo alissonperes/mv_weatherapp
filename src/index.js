@@ -1,8 +1,7 @@
-import { renderCurrentWeather, renderMainForecast } from './renderViews';
+import { getForecast, getCurrentWeather } from './api';
 import './style.css';
 
 const app = document.getElementById('app');
-const APP_ID = '07de9ba11ff7a9f82f38e6eee1f5515b';
 const get = () => JSON.parse(localStorage.getItem('preferences'));
 const set = (value) => {
   localStorage.setItem('preferences', JSON.stringify(value));
@@ -15,8 +14,6 @@ const basePreferences = {
 };
 
 const preferences = get() || set(basePreferences);
-
-const navigatorLanguage = navigator.language || navigator.userLanguage || 'en-US';
 
 const locationDiv = document.createElement('div');
 locationDiv.className = 'location';
@@ -62,53 +59,16 @@ app.appendChild(locationDiv);
 app.appendChild(currentWeatherForecast);
 app.appendChild(mainForecastDiv);
 
-async function getCurrentWeather() {
-  const builtURL = `https://api.openweathermap.org/data/2.5/weather?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
-  try {
-    const response = await fetch(builtURL);
-    if (response.ok) {
-      const data = await response.json();
-
-      renderCurrentWeather(currentWeatherForecast, data, preferences);
-      return data;
-    }
-    currentWeatherForecast.innerHTML = '';
-    currentWeatherForecast.innerText = response.statusText;
-    return response.statusText;
-  } catch (e) {
-    return e;
-  }
-}
-
-async function getForecast() {
-  const builtURL = `https://api.openweathermap.org/data/2.5/forecast?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
-
-  try {
-    const response = await fetch(builtURL);
-    if (response.ok) {
-      const data = await response.json();
-
-      renderMainForecast(mainForecastDiv, data.list, preferences);
-      return data;
-    }
-    mainForecastDiv.innerHTML = '';
-    mainForecastDiv.innerText = response.statusText;
-    return response.statusText;
-  } catch (e) {
-    return e;
-  }
-}
-
-getCurrentWeather(currentWeatherForecast);
-getForecast();
+getCurrentWeather(currentWeatherForecast, preferences);
+getForecast(mainForecastDiv, preferences);
 
 const unitsToggle = document.getElementById('units-toggle');
 unitsToggle.onclick = () => {
   preferences.units = preferences.units === 'metric' ? 'imperial' : 'metric';
   set(preferences);
   unitsHeader.innerText = `Units: ${preferences.units}`;
-  getCurrentWeather();
-  getForecast();
+  getCurrentWeather(currentWeatherForecast, preferences);
+  getForecast(mainForecastDiv, preferences);
 };
 
 const changeLocationBtn = document.getElementById('change-location-btn');
@@ -117,8 +77,8 @@ changeLocationBtn.onclick = () => {
   if (locationInput.checkValidity()) {
     preferences.city = locationInput.value;
     set(preferences);
-    getCurrentWeather();
-    getForecast();
+    getCurrentWeather(currentWeatherForecast, preferences);
+    getForecast(mainForecastDiv, preferences);
     locationInput.value = '';
   } else {
     locationInput.reportValidity();
