@@ -1,4 +1,4 @@
-import './renderViews';
+import { renderCurrentWeather, renderMainForecast } from './renderViews';
 import './style.css';
 
 const app = document.getElementById('app');
@@ -58,73 +58,9 @@ currentWeatherForecast.id = 'current-weather';
 const mainForecastDiv = document.createElement('div');
 mainForecastDiv.id = 'current-forecast';
 
-const dateFormat = (intDate) => {
-  const newDate = new Date(intDate * 1000);
-  const date = new Date(intDate * 1000).toLocaleDateString(navigatorLanguage);
-  function hhMM() {
-    const hours = newDate.getHours().toLocaleString(navigatorLanguage, {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    });
-    const minutes = newDate.getMinutes().toLocaleString(navigatorLanguage, {
-      minimumIntegerDigits: 2,
-      useGrouping: false,
-    });
-
-    const dateStr = `${hours}:${minutes}`;
-    return dateStr;
-  }
-
-  return { date, hhMM };
-};
-
-function renderCurrentWeather(dataList) {
-  const { weather, main, sys } = dataList;
-  const tempUnit = preferences.units === 'metric' ? 'ºC' : ' ºF';
-  const currentDate = document.createElement('h4');
-  currentDate.innerText = `Updated: ${dateFormat(dataList.dt).date} - ${dateFormat(
-    dataList.dt,
-  ).hhMM()}`;
-  const cityNameHeader = document.createElement('h1');
-  cityNameHeader.innerText = dataList.name;
-  const weatherIcon = document.createElement('img');
-  weatherIcon.src = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
-  weatherIcon.alt = weather[0].description;
-  const weatherDescription = document.createElement('h3');
-  weatherDescription.innerText = weather[0].description;
-  const temperature = document.createElement('h3');
-  temperature.innerText = `Temperature: ${main.temp} ${tempUnit}`;
-  const feelsLike = document.createElement('h3');
-  feelsLike.innerText = `Feels like: ${main.feels_like} ${tempUnit}`;
-  const tempMin = document.createElement('h3');
-  tempMin.innerText = `Min: ${main.temp_min} ${tempUnit}`;
-  const tempMax = document.createElement('h3');
-  tempMax.innerText = `Max: ${main.temp_max} ${tempUnit}`;
-  const pressure = document.createElement('h3');
-  pressure.innerText = `Pressure: ${main.pressure} hPa`;
-  const humidity = document.createElement('h3');
-  humidity.innerText = `Humidity: ${main.humidity}%`;
-  const sunrise = document.createElement('h3');
-  sunrise.innerText = `Sunrise: ${dateFormat(sys.sunrise).hhMM()}`;
-  const sunset = document.createElement('h3');
-  sunset.innerText = `Sunset: ${dateFormat(sys.sunset).hhMM()}`;
-
-  const allNodesCurrentWeather = [
-    currentDate,
-    cityNameHeader,
-    weatherIcon,
-    weatherDescription,
-    temperature,
-    feelsLike,
-    tempMin,
-    tempMax,
-    pressure,
-    humidity,
-    sunrise,
-    sunset,
-  ];
-  allNodesCurrentWeather.forEach((item) => currentWeatherForecast.appendChild(item));
-}
+app.appendChild(locationDiv);
+app.appendChild(currentWeatherForecast);
+app.appendChild(mainForecastDiv);
 
 async function getCurrentWeather() {
   const builtURL = `https://api.openweathermap.org/data/2.5/weather?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
@@ -132,8 +68,8 @@ async function getCurrentWeather() {
     const response = await fetch(builtURL);
     if (response.ok) {
       const data = await response.json();
-      currentWeatherForecast.innerHTML = '';
-      renderCurrentWeather(data);
+
+      renderCurrentWeather(currentWeatherForecast, data, preferences);
       return data;
     }
     currentWeatherForecast.innerHTML = '';
@@ -144,33 +80,6 @@ async function getCurrentWeather() {
   }
 }
 
-function renderMainForecast(dataList) {
-  const tempUnit = preferences.units === 'metric' ? 'ºC' : ' ºF';
-  dataList.forEach((item) => {
-    const weatherItem = item.weather[0];
-    const mainItem = item.main;
-    const forecastItem = document.createElement('div');
-    forecastItem.className = 'forecast-item';
-    const dateHeading = document.createElement('h5');
-    dateHeading.innerText = dateFormat(item.dt).date;
-    const dateHourHeading = document.createElement('h5');
-    dateHourHeading.innerText = dateFormat(item.dt).hhMM();
-    const forecastImg = document.createElement('img');
-    forecastImg.src = `https://openweathermap.org/img/wn/${weatherItem.icon}.png`;
-    const forecastDescription = document.createElement('p');
-    forecastDescription.appendChild(document.createTextNode(weatherItem.description));
-    const forecastTemperature = document.createElement('p');
-    forecastTemperature.appendChild(document.createTextNode(`${mainItem.temp} ${tempUnit}`));
-
-    forecastItem.appendChild(dateHeading);
-    forecastItem.appendChild(dateHourHeading);
-    forecastItem.appendChild(forecastImg);
-    forecastItem.appendChild(forecastDescription);
-    forecastItem.appendChild(forecastTemperature);
-    mainForecastDiv.appendChild(forecastItem);
-  });
-}
-
 async function getForecast() {
   const builtURL = `https://api.openweathermap.org/data/2.5/forecast?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;
 
@@ -178,8 +87,8 @@ async function getForecast() {
     const response = await fetch(builtURL);
     if (response.ok) {
       const data = await response.json();
-      mainForecastDiv.innerHTML = '';
-      renderMainForecast(data.list);
+
+      renderMainForecast(mainForecastDiv, data.list, preferences);
       return data;
     }
     mainForecastDiv.innerHTML = '';
@@ -190,12 +99,8 @@ async function getForecast() {
   }
 }
 
-getCurrentWeather();
+getCurrentWeather(currentWeatherForecast);
 getForecast();
-
-app.appendChild(locationDiv);
-app.appendChild(currentWeatherForecast);
-app.appendChild(mainForecastDiv);
 
 const unitsToggle = document.getElementById('units-toggle');
 unitsToggle.onclick = () => {
