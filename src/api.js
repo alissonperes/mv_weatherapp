@@ -18,6 +18,15 @@ async function getCurrentWeather(node, preferences) {
     node.appendChild(document.createTextNode(response.statusText));
     return response.statusText;
   } catch (e) {
+    while (node.firstChild) {
+      node.removeChild(node.firstChild);
+    }
+    node.appendChild(document.createTextNode(e));
+    node.appendChild(
+      document.createTextNode(
+        "This might be cause by a plugin in your browser, or the openWeatherMap API isn't online at the moment.",
+      ),
+    );
     return e;
   }
 }

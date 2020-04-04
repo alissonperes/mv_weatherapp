@@ -10,7 +10,7 @@ const set = (value) => {
 
 const basePreferences = {
   units: 'metric',
-  city: 'Brasília',
+  city: '',
 };
 
 const preferences = get() || set(basePreferences);
@@ -59,9 +59,6 @@ app.appendChild(locationDiv);
 app.appendChild(currentWeatherForecast);
 app.appendChild(mainForecastDiv);
 
-getCurrentWeather(currentWeatherForecast, preferences);
-getForecast(mainForecastDiv, preferences);
-
 const unitsToggle = document.getElementById('units-toggle');
 unitsToggle.onclick = () => {
   preferences.units = preferences.units === 'metric' ? 'imperial' : 'metric';
@@ -84,3 +81,31 @@ changeLocationBtn.onclick = () => {
     locationInput.reportValidity();
   }
 };
+
+async function posSuccess(position) {
+  const { latitude, longitude } = position.coords;
+  const geoCodingApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en-us`;
+  fetch(geoCodingApiUrl)
+    .then((response) => response.json())
+    .then((response) => {
+      const cityObj = response.localityInfo.administrative;
+      basePreferences.city = cityObj[cityObj.length - 2].isoName;
+      set(basePreferences);
+      getCurrentWeather(currentWeatherForecast, basePreferences);
+      getForecast(mainForecastDiv, preferences);
+      return basePreferences;
+    });
+}
+
+function errorCase() {
+  basePreferences.city = 'Siberia';
+  set(basePreferences);
+  getCurrentWeather(currentWeatherForecast, basePreferences);
+  getForecast(mainForecastDiv, basePreferences);
+
+  return basePreferences;
+}
+
+if (navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(posSuccess, errorCase);
+}
