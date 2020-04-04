@@ -8,6 +8,8 @@ This project builds a browser based weather app. You can check the complete desc
 - HTML
 - CSS
 - Webpack
+- [OpenWeather API](https://openweathermap.org/api)
+- [BigData Cloud API](https://www.bigdatacloud.com/geocoding-apis/free-reverse-geocode-to-city-api)
 
 ## Authors
 
