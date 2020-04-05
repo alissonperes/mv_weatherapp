@@ -92,7 +92,7 @@ async function posSuccess(position) {
       basePreferences.city = cityObj[cityObj.length - 2].isoName;
       set(basePreferences);
       getCurrentWeather(currentWeatherForecast, basePreferences);
-      getForecast(mainForecastDiv, preferences);
+      getForecast(mainForecastDiv, basePreferences);
       return basePreferences;
     });
 }
@@ -107,5 +107,10 @@ function errorCase() {
 }
 
 if (navigator.geolocation) {
-  navigator.geolocation.getCurrentPosition(posSuccess, errorCase);
+  if(preferences.city == ""){
+    navigator.geolocation.getCurrentPosition(posSuccess, errorCase);
+  } else {
+    getCurrentWeather(currentWeatherForecast, preferences);
+    getForecast(mainForecastDiv, preferences);
+  }
 }
