@@ -31,7 +31,7 @@ Install following packages with npm install:
 
 ## Live Version
 
-- [Live version on Git Hack](https://rawcdn.githack.com/alissonperes/mv_weatherapp/94c056fd5d1c317ef740b46902e3932ac1e30c1c/dist/index.html)
+- [Live version on Git Hack](https://rawcdn.githack.com/alissonperes/mv_weatherapp/0edce29f10de01b14d22201df15f0055206def47/dist/index.html)
 - [Live version on my personal website](https://alissonperes.com/weather/)
 
 ## Aknowldgments
