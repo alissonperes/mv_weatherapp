@@ -1,7 +1,16 @@
 body {
-  margin: 0;
-  padding: 0;
   background-color: cadetblue;
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 767px) { 
+  body    {
+    font-size: 0.7rem;
+  }
+  #current-forecast{
+    font-size: 0.8rem;
+  }
 }
 
 #app {
@@ -17,7 +26,7 @@ body {
   overflow: auto;
 }
 .forecast-item {
-  padding: 0 2rem;
+  padding: 0 1rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -26,7 +35,6 @@ body {
 }
 
 #current-weather {
-  line-height: 1.3rem;
   text-align: center;
   display: flex;
   justify-content: center;
