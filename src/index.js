@@ -89,7 +89,8 @@ async function posSuccess(position) {
     .then((response) => response.json())
     .then((response) => {
       const cityObj = response.localityInfo.administrative;
-      basePreferences.city = cityObj[cityObj.length - 2].isoName;
+      const currCity = cityObj[cityObj.length - 2].isoName || cityObj[cityObj.length - 2].name;
+      basePreferences.city = currCity;
       set(basePreferences);
       getCurrentWeather(currentWeatherForecast, basePreferences);
       getForecast(mainForecastDiv, basePreferences);
@@ -107,7 +108,7 @@ function errorCase() {
 }
 
 if (navigator.geolocation) {
-  if(preferences.city == ""){
+  if (preferences.city === '') {
     navigator.geolocation.getCurrentPosition(posSuccess, errorCase);
   } else {
     getCurrentWeather(currentWeatherForecast, preferences);
