@@ -21,6 +21,7 @@
   "homepage": "https://github.com/alissonperes/mv_weatherapp#readme",
   "devDependencies": {
     "css-loader": "^6.5.1",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
