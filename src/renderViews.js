@@ -1,6 +1,6 @@
 const navigatorLanguage = navigator.language || navigator.userLanguage || 'en-US';
 
-const dateFormat = (intDate) => {
+const dateFormat = intDate => {
   const newDate = new Date(intDate * 1000);
   const date = new Date(intDate * 1000).toLocaleDateString(navigatorLanguage);
   function hhMM() {
@@ -68,15 +68,15 @@ function renderCurrentWeather(node, dataList, preferences) {
   const mainTempNodes = [temperature, feelsLike, tempMin, tempMax];
   const miainOthersNode = [pressure, humidity, sunrise, sunset];
 
-  mainCityNodes.forEach((item) => {
+  mainCityNodes.forEach(item => {
     mainCityDiv.appendChild(item);
   });
 
-  mainTempNodes.forEach((item) => {
+  mainTempNodes.forEach(item => {
     mainTempDiv.appendChild(item);
   });
 
-  miainOthersNode.forEach((item) => {
+  miainOthersNode.forEach(item => {
     mainOthersDiv.appendChild(item);
   });
 
@@ -91,7 +91,7 @@ function renderMainForecast(node, dataList, preferences) {
     node.removeChild(node.firstChild);
   }
   const tempUnit = preferences.units === 'metric' ? 'ºC' : ' ºF';
-  dataList.forEach((item) => {
+  dataList.forEach(item => {
     const weatherItem = item.weather[0];
     const mainItem = item.main;
     const forecastItem = document.createElement('div');

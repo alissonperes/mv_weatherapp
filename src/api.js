@@ -1,6 +1,6 @@
 import { renderCurrentWeather, renderMainForecast } from './renderViews';
 
-const APP_ID = process.env.APP_ID;
+const { APP_ID } = process.env;
 
 async function getCurrentWeather(node, preferences) {
   const builtURL = `https://api.openweathermap.org/data/2.5/weather?q=${preferences.city}&units=${preferences.units}&APPID=${APP_ID}`;

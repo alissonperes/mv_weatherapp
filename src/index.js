@@ -3,7 +3,7 @@ import './style.css';
 
 const app = document.getElementById('app');
 const get = () => JSON.parse(localStorage.getItem('preferences'));
-const set = (value) => {
+const set = value => {
   localStorage.setItem('preferences', JSON.stringify(value));
   return get();
 };
@@ -86,8 +86,8 @@ async function posSuccess(position) {
   const { latitude, longitude } = position.coords;
   const geoCodingApiUrl = `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}&localityLanguage=en-us`;
   fetch(geoCodingApiUrl)
-    .then((response) => response.json())
-    .then((response) => {
+    .then(response => response.json())
+    .then(response => {
       const cityObj = response.localityInfo.administrative;
       const currCity = cityObj[cityObj.length - 2].isoName || cityObj[cityObj.length - 2].name;
       basePreferences.city = currCity;
